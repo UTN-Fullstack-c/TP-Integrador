@@ -9,3 +9,14 @@ C:\Users\54911\Documents\GitHub\ASP.NET\Backend\Backend\obj\Debug\net7.0\Backend
 C:\Users\54911\Documents\GitHub\ASP.NET\Backend\Backend\obj\Debug\net7.0\refint\Backend.dll
 C:\Users\54911\Documents\GitHub\ASP.NET\Backend\Backend\obj\Debug\net7.0\Backend.pdb
 C:\Users\54911\Documents\GitHub\ASP.NET\Backend\Backend\obj\Debug\net7.0\ref\Backend.dll
+D:\flacorandom\Desktop\New folder\TP-Integrador\Backend\bin\Debug\net7.0\Backend.deps.json
+D:\flacorandom\Desktop\New folder\TP-Integrador\Backend\bin\Debug\net7.0\Backend.dll
+D:\flacorandom\Desktop\New folder\TP-Integrador\Backend\bin\Debug\net7.0\Backend.pdb
+D:\flacorandom\Desktop\New folder\TP-Integrador\Backend\obj\Debug\net7.0\Backend.GeneratedMSBuildEditorConfig.editorconfig
+D:\flacorandom\Desktop\New folder\TP-Integrador\Backend\obj\Debug\net7.0\Backend.AssemblyInfoInputs.cache
+D:\flacorandom\Desktop\New folder\TP-Integrador\Backend\obj\Debug\net7.0\Backend.AssemblyInfo.cs
+D:\flacorandom\Desktop\New folder\TP-Integrador\Backend\obj\Debug\net7.0\Backend.csproj.CoreCompileInputs.cache
+D:\flacorandom\Desktop\New folder\TP-Integrador\Backend\obj\Debug\net7.0\Backend.dll
+D:\flacorandom\Desktop\New folder\TP-Integrador\Backend\obj\Debug\net7.0\refint\Backend.dll
+D:\flacorandom\Desktop\New folder\TP-Integrador\Backend\obj\Debug\net7.0\Backend.pdb
+D:\flacorandom\Desktop\New folder\TP-Integrador\Backend\obj\Debug\net7.0\ref\Backend.dll
