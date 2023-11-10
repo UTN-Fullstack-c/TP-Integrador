@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace BackEnd
 {
-    class Cuartel
+/*    class Cuartel
     {
         List<Robot> robotsActivos;
         List<Robot> reserva;
@@ -44,5 +39,5 @@ namespace BackEnd
         {
 
         }
-    }
+    }*/
 }

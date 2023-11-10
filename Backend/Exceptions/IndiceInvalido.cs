@@ -4,15 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BackEnd
+namespace Backend.Exceptions
 {
-    class K9 : Robot
+    public class IndiceInvalido : Exception
     {
-        public K9(int bateria, int velocidad) :base(bateria, velocidad)
-        {
-
-        }
-
-
+        public IndiceInvalido(string msg) : base(msg) { }
     }
 }
