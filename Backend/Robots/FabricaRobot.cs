@@ -20,7 +20,7 @@ namespace Backend.Robots
                 new Bateria(4000),
                 id,
                 localizacion
-                );
+            );
         }
 
         public K9 CreateK9(
@@ -36,7 +36,7 @@ namespace Backend.Robots
                 new Bateria(6500),
                 id,
                 localizacion
-                );
+            );
         }
 
         public M8 CreateM8(
@@ -52,7 +52,7 @@ namespace Backend.Robots
                 new Bateria(12250),
                 id,
                 localizacion
-                );
+            );
         }
         
     }

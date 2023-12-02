@@ -10,7 +10,7 @@ namespace Backend.Robots.TiposRobot
             float velocidadMax,
             float pesoMax,
             Estado estado,
-            Bateria? bateria,
+            Bateria bateria,
             int id,
             Localizacion2D localizacion
             )

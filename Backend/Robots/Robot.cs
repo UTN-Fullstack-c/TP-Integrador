@@ -2,6 +2,7 @@
 using Backend.Exceptions;
 using Backend.Localizaciones;
 using Backend.Estados;
+using System.Text;
 
 namespace Backend.Robots
 {
@@ -10,17 +11,33 @@ namespace Backend.Robots
         public const float FactorVelocidad = 0.5f;
 
         private List<CargaFisica> _cargas;
-        
-        private Localizacion2D _localizacion;
-        public Localizacion2D Localizacion { 
-            get { return _localizacion; } 
-        }
-
+        public Localizacion2D Localizacion { get; set; }
         public int IdCuartel { get; }
         public Bateria Bateria { get; }
         public Estado Estado { get; set; }
         public float PesoMax { get; }
+        public float Carga { get; set; }
         public float VelocidadMax { get; }
+        private float danio;
+        public float Danio { get { return danio; } set { danio = value; } }
+
+        public override string ToString()
+        {
+            return new StringBuilder()
+                .Append("Bateria: ")
+                .Append(Bateria.PorcentajeBateriaConsumida())
+                .Append("mA\n")
+                .Append("Daño: ")
+                .Append(Danio)
+                .Append("%\n")
+                .Append("Carga: ")
+                .Append(Carga)
+                .Append("Kg\n")
+                .Append("Velocidad: ")
+                .Append(GetVelocidadActual())
+                .Append("Km/h")
+                .ToString();
+        }
 
         protected Robot(
             float velocidadMax, 
@@ -36,8 +53,46 @@ namespace Backend.Robots
             Estado = estado;
             Bateria = bateria;
             IdCuartel = id;
-            _localizacion = localizacion;
+            Localizacion = localizacion;
+            Localizacion.Hospedar(this);
             _cargas = new List<CargaFisica>();
+            danio = 0;
+            Carga = 0;
+        }
+
+        public bool Recorrer(List<Localizacion2D> ruta)
+        {
+            foreach(var localizacion in ruta)
+            {
+                if (!localizacion.Hospedar(this))
+                    return false;
+                Localizacion.Desalojar(this);
+                this.Localizacion = localizacion;
+            }
+            return true;
+        }
+
+        public void DaniarComponentes(float probability, float porcentajeDanio)
+        {
+            float randomValue = (float)new Random().NextDouble();
+            if (randomValue < probability)
+            {
+                danio += porcentajeDanio;
+                if (danio > 1)
+                    danio = 1;
+            }
+        }
+
+        public void DaniarBateria(float porcentajeDanio)
+        {
+            float factorDanio = (1 - porcentajeDanio);
+            float nuevoMaximo = Bateria.MiliAmperiosMax * factorDanio;
+            Bateria.MiliAmperiosMax = (int) nuevoMaximo;
+        }
+
+        public void Reparar()
+        {
+            Danio = 0;
         }
 
         public float GetVelocidadActual()
@@ -46,13 +101,6 @@ namespace Backend.Robots
                 Bateria.PorcentajeBateriaConsumida() * FactorVelocidad;
             return VelocidadMax * (1+(porcentajeVelocidadPerdida / 100));
         }
-
-        public virtual void Moverse(int x, int y)
-        {
-            _localizacion.X += x;
-            _localizacion.Y += y;
-        }
-
 
         // Retorna los milliAmperios que realmente se transfirio.
         // Lanza excepcion si no hay suficiente para transferir.

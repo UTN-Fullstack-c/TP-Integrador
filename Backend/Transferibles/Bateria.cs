@@ -4,7 +4,7 @@ namespace Backend.Transferibles
 {
     public class Bateria
     {
-        public int MiliAmperiosMax { get; }
+        public int MiliAmperiosMax { get; set; }
 
         public int _miliAmperiosActuales;
         public int MiliAmperiorsActuales

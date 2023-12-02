@@ -1,80 +1,122 @@
-﻿using Backend.Exceptions;
+﻿using Backend;
 using Backend.Localizaciones;
 using Backend.Robots;
-using Backend.Robots.TiposRobot;
-using Backend.Transferibles;
 
 namespace FrontEnd
 {
     internal class Program
     {
+        private const int Y_MAP_LENGTH = 30;
+        private const int X_MAP_LENGTH = 100;
+        private const int MAX_CUARTELES = 3;
+        private const int MAX_RECICLAJE = 5;
         static void Main(string[] args)
         {
-            var fabrica = new FabricaRobot();
-            Uav uav = fabrica.CreateUAV(100,1,new Localizacion2D(0,0));
-            K9 k9 = fabrica.CreateK9(50, 2, new Localizacion2D(0, 0));
-            M8 m8 = fabrica.CreateM8(25, 3, new Localizacion2D(0, 0));
-            CargaFisica carga;
-
-            Console.WriteLine("\nPeso Maximo K9: " + k9.PesoMax);
-            Console.WriteLine("Peso Maximo UAV: " + uav.PesoMax);
-            Console.WriteLine("Peso Maximo M8: " + m8.PesoMax);
-
-            carga = new CargaFisica(39);
-            Console.WriteLine("\nNueva carga fisica: " + carga.Peso + "kg");
-            Console.WriteLine("Asignando carga a K9...");
-            k9.IntentarAsignarCargaFisica(carga);
-            Console.WriteLine("Carga asignada a K9.");
-            Console.WriteLine("Carga total K9: " + k9.PesoCargaTotal());
-
-            carga = new CargaFisica(1);
-            Console.WriteLine("\nNueva carga fisica: " + carga.Peso + "kg");
-            Console.WriteLine("Asignando carga a K9...");
-            k9.IntentarAsignarCargaFisica(carga); 
-            Console.WriteLine("Carga asignada a K9.");
-            Console.WriteLine("Carga total K9: " + k9.PesoCargaTotal());
-
-            try
-            {
-                carga = new CargaFisica(1);
-                Console.WriteLine("\nNueva carga fisica: " + carga.Peso + "kg");
-                Console.WriteLine("Asignando carga a K9...");
-                k9.IntentarAsignarCargaFisica(carga);
-                Console.WriteLine("Carga asignada a K9.");
-                Console.WriteLine("Carga total K9: " + k9.PesoCargaTotal());
-            }
-            catch (PesoMaximoExcedido exception)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(exception.Message.ToString());
-                Console.ForegroundColor = ConsoleColor.Gray;
-            }
-            Console.WriteLine("Carga total K9: " + k9.PesoCargaTotal());
-            Console.WriteLine("Velocidad de K9: " + k9.GetVelocidadActual());
-
-            Console.WriteLine("\nBateria de K9: " + k9.Bateria.PorcentajeBateriaActual() + "%");
-            var milliAmperiosInicial = k9.Bateria.MiliAmperiorsActuales;
-            Console.WriteLine("Bateria de K9: " + k9.Bateria.MiliAmperiorsActuales + "mA");
-            Console.WriteLine("Transfiriendo 1er carga de K9 hacia M8...");
-            k9.TransferirCargaFisica(m8, 0);
-            Console.WriteLine("Carga total K9: " + k9.PesoCargaTotal());
-            Console.WriteLine("Carga total M8: " + m8.PesoCargaTotal());
-            Console.WriteLine("Bateria actual de K9: " + k9.Bateria.PorcentajeBateriaActual()+"%");
-            Console.WriteLine("MilliAmperios consumidos: " +
-                (milliAmperiosInicial - k9.Bateria.MiliAmperiorsActuales) + "mA"
+            Mapa mapa = new Mapa(
+                X_MAP_LENGTH, 
+                Y_MAP_LENGTH,
+                MAX_CUARTELES,
+                MAX_RECICLAJE
             );
-            Console.WriteLine("Velocidad de K9: " + k9.GetVelocidadActual());
+            MapaConsola mapaConsola = new MapaConsola(mapa);
+            var fabrica = new FabricaRobot();
+            Localizacion2D origen = mapa.Get(50, 15);
+            Robot m8 = fabrica.CreateM8(
+                100,
+                1,
+                origen
+            );
+            mapaConsola.Imprimir();
+            Console.WriteLine();
+            Console.ReadKey();
+            Cuartel cuartel = mapa.Cuarteles[0];
+            cuartel.Mapa = mapa;
+            cuartel.Suscriptors.Add((message) =>
+            {
+                Console.WriteLine(message);
+                mapaConsola.Imprimir(false);
+                Console.WriteLine(m8);
+                Console.ReadKey();
+            });
+            cuartel.AgregarRobot( m8 );
+            cuartel.TodosLosRobotsAlTrabajo();
+            Console.WriteLine(" ");
+            mapaConsola.Imprimir(false);
+            Console.WriteLine(m8);
+            Console.ReadLine();
+            if (!cuartel.RepararTodos())
+                Console.WriteLine("Hay robots que no pueden llegar al cuartel para reparase");
+            else
+            {
+                Console.WriteLine();
+                mapaConsola.Imprimir(false);
+                Console.WriteLine(m8);
+            }
+            
+            Localizacion2D destino = mapa.Get(X_MAP_LENGTH - 1, Y_MAP_LENGTH - 1);
 
-            Console.WriteLine("\nBateria actual de UAV: " + uav.Bateria.MiliAmperiorsActuales + "mA");
-            Console.WriteLine("Transfiriendo bateria desde UAV hacia k9");
-            uav.TransferirCargaBateria(k9, uav.Bateria.MiliAmperiorsActuales);
-            Console.WriteLine("Bateria actual de K9: " + k9.Bateria.PorcentajeBateriaActual() + "%");
-            Console.WriteLine("Bateria actual de UAV: " + uav.Bateria.MiliAmperiorsActuales + "mA");
-
-            Console.WriteLine("\nPosicion actual de m8: (" + m8.Localizacion.X + "," + m8.Localizacion.Y + ")");
-            Console.WriteLine("Moviendo a m8, 2 unidades en X y 3 unidades en Y...");
-            m8.Moverse(2, 3);
-            Console.WriteLine("Posicion actual de m8: (" + m8.Localizacion.X + "," + m8.Localizacion.Y + ")");
+            Console.WriteLine("Mapa");
+            mapaConsola.Imprimir(false); 
+            
+            var ruta = GeneradorRuta.RutaOptima(mapa, origen, destino);
+            string msg = "";
+            if (ruta.Count == 0) 
+                msg = " inexistente";
+            Console.WriteLine("Ruta Optima" + msg);
+            for (int i = 0; i < ruta.Count; i++)
+                ruta[i].Marca = i % 9;
+            mapaConsola.Imprimir(ruta, false);
+            
+            msg = "";
+            if (ruta.Count == 0)
+                msg = " inexistente";
+            Console.WriteLine("Ruta Directa" + msg);
+            ruta = GeneradorRuta.RutaDirecta(mapa, origen, destino);
+            for (int i = 0; i < ruta.Count; i++)
+                ruta[i].Marca = i % 9;
+            mapaConsola.Imprimir(ruta, false);
+            
+            Console.ReadKey();
+            /*
+            var rutas = ControladorMovimientoBfs.RutaOptima2(mapa, origen, destino);
+            //mapaConsola.Imprimir(ruta);
+            Console.WriteLine("Rutas directas : " + rutas.Count);
+            //Console.ReadKey();
+            foreach (var r in rutas)
+            {
+                mapaConsola.Imprimir(false  );
+                for (int i = 0; i < r.Count; i++)
+                    r[i].Marca = i%9;
+                mapaConsola.Imprimir(r);
+                Console.ReadKey();
+            }*/
+            /*         rutas = ControladorMovimiento.RutaDirecta(mapa, origen, destino);
+                     Console.WriteLine("Rutas directas : " + rutas.Count);
+                     Console.ReadKey();
+                     foreach (var ruta in rutas)
+                     {
+                         mapaConsola.Imprimir(ruta, true, ConsoleColor.DarkMagenta);
+                         Console.ReadKey();
+                     }*/
+            /*
+            List<Localizacion2D> recorrido = new List<Localizacion2D>();
+            Localizacion2D destino = mapa.Get(1,1);
+            int option = 1;
+            switch(option)
+            {
+                case 1:
+                    controladorMovimiento.RecorrerRutaDirecta(uav, destino, recorrido);
+                    mapaConsola.Imprimir(recorrido);
+                    break;
+                case 2:
+                    mapaConsola.Imprimir();
+                    break;
+                case 3:
+                    recorrido.Add(new Cuartel(X_MAP_LENGTH - 1, Y_MAP_LENGTH -1));
+                    mapaConsola.Imprimir(recorrido);
+                    break;
+            }
+            */
         }
     }
 }
