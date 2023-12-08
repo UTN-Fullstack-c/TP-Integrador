@@ -1,4 +1,5 @@
-﻿using Backend.Localizaciones.Fabricas;
+﻿using Backend.Localizaciones.Fabricas.Edificio;
+using Backend.Localizaciones.Fabricas.Zona;
 
 namespace Backend.Localizaciones
 {
@@ -86,7 +87,7 @@ namespace Backend.Localizaciones
                 }
             }
             construirZona(new FabricaCuartel(), maxCantCuarteles);
-            construirZona(new FabricaReciblake(), maxCantPuntosRecicleje);
+            construirZona(new FabricaReciclaje(), maxCantPuntosRecicleje);
         }
 
         public void validarProbabilidades(List<int> probabilidades)
@@ -99,7 +100,7 @@ namespace Backend.Localizaciones
         }
 
         public void construirZona<TipoZona>(
-            FabricaDeZonas<TipoZona> fabricaDeZonas,
+            FabricaDeEdificios<TipoZona> fabricaDeZonas,
             int maxAmount
             )
             where TipoZona : Localizacion2D
@@ -110,7 +111,7 @@ namespace Backend.Localizaciones
             {
                 int x = random.Next(mapa.GetLength(0));
                 int y = random.Next(mapa.GetLength(1));
-                mapa[x, y] = fabricaDeZonas.Crear(x, y);
+                mapa[x, y] = fabricaDeZonas.Crear(x, y, contadorCuarteles);
                 guardarZonaDestacada(mapa[x,y]);   
             }
         }

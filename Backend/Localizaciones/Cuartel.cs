@@ -7,17 +7,19 @@ namespace Backend.Localizaciones
         public Mapa Mapa { get; set; }
         public List<Robot> RobotsActivos { get; set; }
         public List<Robot> Reserva { get; set; }
-
+        public int NumeroCuartel { get; set; }
         public List<Action<String>> Suscriptors { get; set; }
 
-        public Cuartel(int x, int y) : base(x, y, "Cuartel")
+        public Cuartel(int x, int y, int numeroCuartel) 
+            : base(x, y, "Cuartel " + numeroCuartel)
         {
             Reserva = new List<Robot>();
             RobotsActivos = new List<Robot>();
             Suscriptors = new List<Action<String>>();
+            NumeroCuartel = numeroCuartel;
         }
 
-        
+ 
         
         // ARREGLAR LOS RETURNS 
 

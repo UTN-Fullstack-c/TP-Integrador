@@ -1,14 +1,21 @@
 ﻿using Backend.Localizaciones;
 
-namespace FrontEnd
+namespace FrontEnd.MapaNamespace
 {
     public class MapaConsola
     {
-        public Mapa Mapa { get; }
+        private static MapaConsola? mapaConsola;
+        public Mapa? Mapa { get; set; }
 
-        public MapaConsola(Mapa mapa)
+        protected MapaConsola()
         {
-            Mapa = mapa;
+        }
+
+        public static MapaConsola Singleton()
+        {
+            if (mapaConsola == null)
+                mapaConsola = new MapaConsola();
+            return mapaConsola;
         }
 
         void marcarZona(Localizacion2D zona, ConsoleColor color)
@@ -29,9 +36,9 @@ namespace FrontEnd
             if (recorrido.Count == 0)
                 return;
             marcarZona(recorrido[0], ConsoleColor.White);
-            for (int i = 1; i < recorrido.Count-1; i++)
+            for (int i = 1; i < recorrido.Count - 1; i++)
                 marcarZona(recorrido[i], color);
-            marcarZona(recorrido[recorrido.Count-1], ConsoleColor.Gray);
+            marcarZona(recorrido[recorrido.Count - 1], ConsoleColor.Gray);
             Imprimir(limpiarMapa);
         }
 
@@ -44,7 +51,7 @@ namespace FrontEnd
             //for (int y = 0; y < mapa.GetLength(1); y++)
             //  Console.Write(y.ToString());
             string toPrint = " ";
-            for (int y = Mapa.LargoVertical() - 1; y >= 0 ; y--)
+            for (int y = Mapa.LargoVertical() - 1; y >= 0; y--)
             {
                 // Console.Write((x<10)?"0":"" + x.ToString());
                 for (int x = 0; x < Mapa.LargoHorizontal(); x++)
@@ -77,7 +84,7 @@ namespace FrontEnd
                         Console.BackgroundColor = ConsoleColor.Black;*/
                     }
                     if (noEscrito)
-                        Console.Write((Mapa.Get(x,y).Robots.Count > 0 )? "*" : toPrint);
+                        Console.Write(Mapa.Get(x, y).Robots.Count > 0 ? "*" : toPrint);
                     toPrint = " ";
                 }
                 Console.BackgroundColor = ConsoleColor.Black;

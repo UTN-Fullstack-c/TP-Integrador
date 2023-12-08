@@ -1,29 +1,31 @@
 ﻿using Backend;
 using Backend.Localizaciones;
 using Backend.Robots;
+using Backend.Robots.FabricaRobots;
+using FrontEnd.CustomException;
+using FrontEnd.MapaNamespace;
+using FrontEnd.MenuNamespace;
+using FrontEnd.MenuNamespace.MenuMapaNamespace;
 
 namespace FrontEnd
 {
     internal class Program
     {
-        private const int Y_MAP_LENGTH = 30;
-        private const int X_MAP_LENGTH = 100;
-        private const int MAX_CUARTELES = 3;
-        private const int MAX_RECICLAJE = 5;
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Mapa mapa = new Mapa(
-                X_MAP_LENGTH, 
-                Y_MAP_LENGTH,
-                MAX_CUARTELES,
-                MAX_RECICLAJE
-            );
-            MapaConsola mapaConsola = new MapaConsola(mapa);
-            var fabrica = new FabricaRobot();
+            MenuConsola menuMapas = new MenuMapa();
+            menuMapas.Ejecutar();
+            function();
+        }
+
+        static void function()
+        {
+            MapaConsola mapaConsola = MapaConsola.Singleton();
+            Mapa mapa = mapaConsola.Mapa;
+            var fabrica = new FabricaM8();
             Localizacion2D origen = mapa.Get(50, 15);
-            Robot m8 = fabrica.CreateM8(
+            Robot m8 = fabrica.Crear(
                 100,
-                1,
                 origen
             );
             mapaConsola.Imprimir();
@@ -53,7 +55,7 @@ namespace FrontEnd
                 Console.WriteLine(m8);
             }
             
-            Localizacion2D destino = mapa.Get(X_MAP_LENGTH - 1, Y_MAP_LENGTH - 1);
+            Localizacion2D destino = mapa.Get(mapa.LargoHorizontal() - 1, mapa.LargoVertical() - 1);
 
             Console.WriteLine("Mapa");
             mapaConsola.Imprimir(false); 

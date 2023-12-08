@@ -8,17 +8,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Backend.Robots.FabricaRobots;
 
-namespace FrontEnd
+namespace FrontEnd.old
 {
     public class PrimerEntrega
     {
         static void Test(Localizacion2D[,] mapa)
         {
-            var fabrica = new FabricaRobot();
-            Uav uav = fabrica.CreateUAV(100, 1, new Localizacion2D(0, 0, "Terreno X"));
-            K9 k9 = fabrica.CreateK9(50, 2, new Localizacion2D(0, 0, "Terreno X"));
-            M8 m8 = fabrica.CreateM8(25, 3, new Localizacion2D(0, 0, "Terreno X"));
+            Robot uav = FabricaRobot.Crear(0,100, new Localizacion2D(0, 0, "Terreno X"));
+            Robot k9 = FabricaRobot.Crear(1, 50, new Localizacion2D(0, 0, "Terreno X"));
+            Robot m8 = FabricaRobot.Crear(2, 25, new Localizacion2D(0, 0, "Terreno X"));
             CargaFisica carga;
 
             Console.WriteLine("\nPeso Maximo K9: " + k9.PesoMax);

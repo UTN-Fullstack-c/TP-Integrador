@@ -4,7 +4,8 @@ namespace Backend.Localizaciones
 {
     public class Reciclaje : Localizacion2D, PuntoDeCarga
     {
-        public Reciclaje(int x, int y) : base(x, y, "Sitio de Reciclaje")
+        public Reciclaje(int x, int y, int numeroDeReciclaje) 
+            : base(x, y, "Sitio de Reciclaje " + numeroDeReciclaje)
         {
         }
 

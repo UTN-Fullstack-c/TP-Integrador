@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Backend.Localizaciones.Fabricas
+namespace Backend.Localizaciones.Fabricas.Zona
 {
-    public class FabricaLago : FabricaDeZonas
+    public class FabricaVertederos : FabricaDeZonas
     {
         public override Localizacion2D Crear(int x, int y)
         {
-            return new Lago(x, y);
+            return new Vertedero(x, y);
         }
     }
 }
