@@ -1,30 +1,24 @@
 ﻿using Backend.Localizaciones;
 using Backend.Robots;
 using Backend.Robots.FabricaRobots;
-using FrontEnd.MapaNamespace;
 using FrontEnd.MenuNamespace;
-using System.Drawing;
 
 namespace FrontEnd.Menu.MenuCuartelNamespace.AgregarRobotNamespace
 {
-    public abstract class AgregarRobot : MenuConsola
+    public abstract class AgregarRobot : ICommand
     {
-        protected FabricaRobot fabricaRobot;
-        protected Cuartel Cuartel;
+        private FabricaRobot fabricaRobot;
+        private Cuartel Cuartel;
 
-        protected AgregarRobot(Cuartel cuartel)
-            : base ("Agregar robot")
+        protected AgregarRobot(FabricaRobot fabricaRobot, Cuartel cuartel)
         {
+            this.fabricaRobot = fabricaRobot;
             Cuartel = cuartel;
         }
 
-        public AgregarRobot() : base("Agregar robot al cuartel")
+        public void Ejecutar()
         {
-        }
-
-        public override void Ejecutar()
-        {
-            var consola = ConsolaCustom.CrearConsola();
+            var consola = ConsolaCustom.Singleton();
             var color = ConsoleColor.Yellow;
             var msgVelMax = "Ingrese la velocidad maxima : ";
             float velocidadMaxima = consola.LeerEntero(1, null, msgVelMax, color);

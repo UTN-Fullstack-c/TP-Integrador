@@ -24,5 +24,9 @@ namespace Backend.Robots.TiposRobot
             )
         {
         }
+        public override string ToString()
+        {
+            return "Modelo: K9\n" + base.ToString();
+        }
     }
 }

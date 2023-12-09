@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FrontEnd.MenuNamespace.MenuMapaNamespace
 {
-    public class MenuMapa : MenuConsola
+    public class MenuMapa : ListaSeleccion
     {
         public MenuMapa()
             : base("Selecciona mapa")

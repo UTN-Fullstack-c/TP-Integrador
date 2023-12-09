@@ -8,7 +8,7 @@ namespace FrontEnd
 
         protected ConsolaCustom() { }
 
-        public static ConsolaCustom CrearConsola()
+        public static ConsolaCustom Singleton()
         {
             if(Consola == null)
                 Consola = new ConsolaCustom();

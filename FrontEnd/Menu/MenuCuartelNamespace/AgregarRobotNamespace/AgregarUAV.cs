@@ -6,10 +6,9 @@ namespace FrontEnd.Menu.MenuCuartelNamespace.AgregarRobotNamespace
     public class AgregarUAV : AgregarRobot
     {
         public AgregarUAV(Cuartel cuartel)
-            : base(cuartel)
+            : base(new FabricaUAV(), cuartel)
 
         {
-            fabricaRobot = new FabricaUAV();
         }
 
         public override string ToString()

@@ -24,5 +24,9 @@ namespace Backend.Robots.TiposRobot
             )
         {
         }
+        public override string ToString()
+        {
+            return "Modelo: M8\n" + base.ToString();
+        }
     }
 }

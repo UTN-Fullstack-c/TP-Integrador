@@ -29,7 +29,6 @@ namespace FrontEnd.MapaNamespace
 
         public void Imprimir(
             List<Localizacion2D> recorrido,
-            bool limpiarMapa = true,
             ConsoleColor color = ConsoleColor.Cyan
             )
         {
@@ -39,17 +38,16 @@ namespace FrontEnd.MapaNamespace
             for (int i = 1; i < recorrido.Count - 1; i++)
                 marcarZona(recorrido[i], color);
             marcarZona(recorrido[recorrido.Count - 1], ConsoleColor.Gray);
-            Imprimir(limpiarMapa);
+            Imprimir();
         }
 
-        public void Imprimir(bool clean = true)
+        public void Imprimir()
         {
-            if (clean)
-                Console.Clear();
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             // Console.Write(" ");
             //for (int y = 0; y < mapa.GetLength(1); y++)
             //  Console.Write(y.ToString());
+            ImprimirReferencias();
             string toPrint = " ";
             for (int y = Mapa.LargoVertical() - 1; y >= 0; y--)
             {
@@ -84,12 +82,34 @@ namespace FrontEnd.MapaNamespace
                         Console.BackgroundColor = ConsoleColor.Black;*/
                     }
                     if (noEscrito)
-                        Console.Write(Mapa.Get(x, y).Robots.Count > 0 ? "*" : toPrint);
-                    toPrint = " ";
+                        Console.Write(Mapa.Get(x, y).RobotsEnZona.Count > 0 ? "*" : toPrint);
+                     toPrint = " ";
                 }
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.WriteLine("");
             }
+        }
+
+        private void ImprimirReferencias()
+        {
+            Console.Write("\nMapa " + Mapa.LargoHorizontal() + "x" + Mapa.LargoVertical() + ":");
+            ImprimirReferencia(ConsoleColor.Yellow, "Cuartel");
+            ImprimirReferencia(ConsoleColor.Black, "Reciclaje (Negro)");
+            ImprimirReferencia(ConsoleColor.Blue, "Lago: Azul");
+            ImprimirReferencia(ConsoleColor.Red, "Vertedero");
+            ImprimirReferencia(ConsoleColor.DarkRed, "VertederoElectronico");
+            ImprimirReferencia(ConsoleColor.DarkGreen, "Zona Neutra");
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.WriteLine("\n");
+        }
+
+        private void ImprimirReferencia(ConsoleColor color, string referencia)
+        {
+            Console.WriteLine();
+            Console.BackgroundColor = color;
+            Console.Write(" ");
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.Write(" " + referencia);
         }
     }
 }

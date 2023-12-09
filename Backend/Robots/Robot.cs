@@ -35,7 +35,12 @@ namespace Backend.Robots
                 .Append("Kg\n")
                 .Append("Velocidad: ")
                 .Append(GetVelocidadActual())
-                .Append("Km/h")
+                .Append("Km/h\n")
+                .Append("Localizacion: (")
+                .Append(Localizacion.X)
+                .Append(",")
+                .Append(Localizacion.Y)
+                .Append(")")
                 .ToString();
         }
 

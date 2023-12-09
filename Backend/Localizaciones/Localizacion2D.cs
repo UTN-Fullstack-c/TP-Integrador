@@ -9,7 +9,7 @@ namespace Backend.Localizaciones
         public virtual int? Marca { get; set; }
         public virtual int X { get; }
         public virtual int Y { get; }
-        public List<Robot> Robots { get; set; }
+        public List<Robot> RobotsEnZona { get; set; }
 
         public int probabildadAparicion { get; set; }
 
@@ -19,18 +19,18 @@ namespace Backend.Localizaciones
             X = x;
             Y = y;
             NombreTerreno = nombre;
-            Robots = new List<Robot>();
+            RobotsEnZona = new List<Robot>();
         }
 
         public virtual bool Hospedar(Robot robot)
         {
-            Robots.Add(robot);
+            RobotsEnZona.Add(robot);
             return true;
         }
 
         public virtual bool Desalojar(Robot robot)
         {
-            Robots.Remove(robot);
+            RobotsEnZona.Remove(robot);
             return true;
         }
 

@@ -12,7 +12,7 @@ namespace FrontEnd.MenuNamespace.MenuMapaNamespace
     {
         public void Ejecutar()
         {
-            var consola = ConsolaCustom.CrearConsola();
+            var consola = ConsolaCustom.Singleton();
             var msgX = "Ingrese el largo del mapa : ";
             var msgY = "Ingrese el alto del mapa : ";
             var msgCuarteles = "Ingrese la maxima cantidad de cuarteles : ";
@@ -22,7 +22,7 @@ namespace FrontEnd.MenuNamespace.MenuMapaNamespace
             int yLength = consola.LeerEntero(1, null, msgY, color);
             int cuarteles = consola.LeerEntero(1, null, msgCuarteles, color);
             int reciclaje = consola.LeerEntero(1, null, msgReciclaje, color);
-            Mapa mapa = new Mapa(xLength, yLength, cuarteles, reciclaje);
+            Mapa mapa = Mapa.Singleton(xLength, yLength, cuarteles, reciclaje);
             MapaConsola.Singleton().Mapa = mapa;
         }
 

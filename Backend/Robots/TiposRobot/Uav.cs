@@ -24,5 +24,10 @@ namespace Backend.Robots.TiposRobot
             )
         {
         }
+
+        public override string ToString()
+        {
+            return "Modelo: UAV\n" + base.ToString();
+        }
     }
 }

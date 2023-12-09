@@ -2,10 +2,11 @@
 using Backend.Localizaciones;
 using Backend.Robots;
 using Backend.Robots.FabricaRobots;
-using FrontEnd.CustomException;
 using FrontEnd.MapaNamespace;
+using FrontEnd.Menu;
 using FrontEnd.MenuNamespace;
 using FrontEnd.MenuNamespace.MenuMapaNamespace;
+using System.Text;
 
 namespace FrontEnd
 {
@@ -13,9 +14,22 @@ namespace FrontEnd
     {
         public static void Main(string[] args)
         {
-            MenuConsola menuMapas = new MenuMapa();
+            ImprimirCaratula();
+            Mapa mapa = CargarMapa();
+            if(mapa != null) 
+            {
+                MenuConsola menuCuarteles = new MenuPrincipal();
+                menuCuarteles.Ejecutar();
+            }
+
+            //function();
+        }
+
+        public static Mapa CargarMapa()
+        {
+            var menuMapas = new MenuMapa();
             menuMapas.Ejecutar();
-            function();
+            return MapaConsola.Singleton().Mapa!;
         }
 
         static void function()
@@ -36,14 +50,14 @@ namespace FrontEnd
             cuartel.Suscriptors.Add((message) =>
             {
                 Console.WriteLine(message);
-                mapaConsola.Imprimir(false);
+                mapaConsola.Imprimir();
                 Console.WriteLine(m8);
                 Console.ReadKey();
             });
             cuartel.AgregarRobot( m8 );
             cuartel.TodosLosRobotsAlTrabajo();
             Console.WriteLine(" ");
-            mapaConsola.Imprimir(false);
+            mapaConsola.Imprimir();
             Console.WriteLine(m8);
             Console.ReadLine();
             if (!cuartel.RepararTodos())
@@ -51,14 +65,14 @@ namespace FrontEnd
             else
             {
                 Console.WriteLine();
-                mapaConsola.Imprimir(false);
+                mapaConsola.Imprimir();
                 Console.WriteLine(m8);
             }
             
             Localizacion2D destino = mapa.Get(mapa.LargoHorizontal() - 1, mapa.LargoVertical() - 1);
 
             Console.WriteLine("Mapa");
-            mapaConsola.Imprimir(false); 
+            mapaConsola.Imprimir(); 
             
             var ruta = GeneradorRuta.RutaOptima(mapa, origen, destino);
             string msg = "";
@@ -67,7 +81,7 @@ namespace FrontEnd
             Console.WriteLine("Ruta Optima" + msg);
             for (int i = 0; i < ruta.Count; i++)
                 ruta[i].Marca = i % 9;
-            mapaConsola.Imprimir(ruta, false);
+            mapaConsola.Imprimir(ruta);
             
             msg = "";
             if (ruta.Count == 0)
@@ -76,7 +90,7 @@ namespace FrontEnd
             ruta = GeneradorRuta.RutaDirecta(mapa, origen, destino);
             for (int i = 0; i < ruta.Count; i++)
                 ruta[i].Marca = i % 9;
-            mapaConsola.Imprimir(ruta, false);
+            mapaConsola.Imprimir(ruta);
             
             Console.ReadKey();
             /*
@@ -120,5 +134,24 @@ namespace FrontEnd
             }
             */
         }
+
+        public static void ImprimirCaratula()
+        {
+            var consola = ConsolaCustom.Singleton();
+            consola.Imprimir("\n\n\n\n\n");
+            var builder = new StringBuilder();
+            builder.AppendLine("             __    _____    _    _   _     _       __      _    _______   ___________   __");
+            builder.AppendLine("            / /   |  ___|  | |  / / \\ \\   / /     |  \\    | |  |  _____| |____   ____|  \\ \\");
+            builder.AppendLine("           / /    | |      | | / /   \\ \\_/ /      |   \\   | |  | |            | |        \\ \\");
+            builder.AppendLine("          / /     | |___   | |/ /     \\   /       | |\\ \\  | |  | |_____       | |         \\ \\");
+            builder.AppendLine("          \\ \\     |____ |  |   |       \\ /        | | \\ \\ | |  |  _____|      | |         / /");
+            builder.AppendLine("           \\ \\        | |  | |\\ \\      | |        | |  \\ \\| |  | |            | |        / /");
+            builder.AppendLine("            \\ \\    ___| |  | | \\ \\     | |    _   | |   \\   |  | |_____       | |       / /");
+            builder.AppendLine("             \\_\\  |_____|  |_|  \\_\\    |_|   |_|  |_|    \\__|  |_______|      |_|      /_/");
+            consola.Imprimir(builder.ToString(), ConsoleColor.Cyan);
+            consola.Imprimir("\n\n                         Presione una tecla para comanzar la simulacion...\n\n\n", ConsoleColor.Blue);
+            Console.ReadKey();
+        }
+
     }
 }

@@ -17,7 +17,7 @@ namespace FrontEnd.MenuNamespace.MenuMapaNamespace
 
         public void Ejecutar()
         {
-            Mapa mapa = new Mapa(
+            Mapa mapa = Mapa.Singleton(
                 X_MAP_LENGTH,
                 Y_MAP_LENGTH,
                 MAX_CUARTELES,

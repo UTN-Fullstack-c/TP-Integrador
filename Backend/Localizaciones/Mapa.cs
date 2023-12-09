@@ -5,6 +5,8 @@ namespace Backend.Localizaciones
 {
     public class Mapa
     {
+        private static Mapa singleton; 
+
         private Localizacion2D[,] mapa;
         public List<Cuartel> Cuarteles { get; set; }
         public List<Reciclaje> Reciclajes { get; set; }
@@ -12,15 +14,7 @@ namespace Backend.Localizaciones
         public List<Vertedero> Vertederos { get; set; }
         public List<VertederoElectronico> VertederoElectronicos { get; set; }
 
-        private Mapa() 
-        {
-            Cuarteles = new List<Cuartel>();
-            Reciclajes = new List<Reciclaje>();
-            Vertederos = new List<Vertedero>();
-            VertederoElectronicos = new List<VertederoElectronico>();
-        }
-
-        public Mapa(
+        protected Mapa(
             int xLength,
             int yLength,
             int maxCantCuarteles,
@@ -39,6 +33,22 @@ namespace Backend.Localizaciones
                 maxCantPuntosRecicleje,
                 probabilidades
             );
+        }
+
+        public static Mapa Singleton(
+            int xLength,
+            int yLength,
+            int maxCantCuarteles,
+            int maxCantPuntosRecicleje
+            )
+        {
+            singleton = new Mapa(xLength, yLength, maxCantCuarteles, maxCantPuntosRecicleje);
+            return singleton;
+        }
+
+        public static Mapa Singleton()
+        {
+            return singleton;
         }
 
         public Localizacion2D Get(int x, int y)
