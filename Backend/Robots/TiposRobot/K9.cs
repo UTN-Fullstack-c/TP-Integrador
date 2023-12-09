@@ -8,19 +8,21 @@ namespace Backend.Robots.TiposRobot
     {
         public K9(
             float velocidadMax,
-            float pesoMax,
+            Contenedor contenedor,
             Estado estado,
-            Bateria? bateria,
+            Bateria bateria,
             int id,
-            Localizacion2D localizacion
+            Localizacion2D localizacion,
+            Cuartel cuartel
             )
             : base(
                   velocidadMax,
-                  pesoMax,
+                  contenedor,
                   estado,
                   bateria,
                   id,
-                  localizacion
+                  localizacion,
+                  cuartel
             )
         {
         }

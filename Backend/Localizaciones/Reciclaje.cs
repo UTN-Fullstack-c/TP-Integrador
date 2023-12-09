@@ -16,7 +16,7 @@ namespace Backend.Localizaciones
 
         public void Reparar(Robot robot)
         {
-            robot.Bateria.RecargarBateriaCompleta();
+            robot.Bateria.CompletarCarga();
         }
     }
 }

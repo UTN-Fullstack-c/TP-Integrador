@@ -23,7 +23,7 @@ namespace FrontEnd.Menu
                 foreach (var cuartel in mapa.Cuarteles)
                     Commands.Add(new MenuCuartel(cuartel));
                 Commands.Add(new MostrarMapa());
-                Commands.Add(new ListarRobotsPorLocalizacion());
+                Commands.Add(new RobotsPorLocalizacion());
             }
         }
     }

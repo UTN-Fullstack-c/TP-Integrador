@@ -2,6 +2,7 @@
 using Backend.Robots;
 using FrontEnd.CustomException;
 using FrontEnd.MenuNamespace;
+using System;
 
 namespace FrontEnd.Menu.MenuCuartelNamespace.MenuRobotNamespace
 {
@@ -21,6 +22,13 @@ namespace FrontEnd.Menu.MenuCuartelNamespace.MenuRobotNamespace
                 consola.Imprimir("\nEl cuartel no tiene robots\n", ConsoleColor.Red);
                 return;
             }
+            int cantidadOpciones = ImprimirListaRobots();
+            AbrirMenuRobot(cantidadOpciones);
+        }
+
+        private int ImprimirListaRobots()
+        {
+            var consola = ConsolaCustom.Singleton();
             consola.Imprimir("\nSeleccione un robot\n", ConsoleColor.Yellow);
             int i = 0;
             for (i = 0; i < Cuartel.RobotsActivos.Count; i++)
@@ -29,21 +37,22 @@ namespace FrontEnd.Menu.MenuCuartelNamespace.MenuRobotNamespace
                 consola.Imprimir("\n" + (i + 1) + ") ", ConsoleColor.Yellow);
                 consola.Imprimir(robot.GetNombre() + ".");
             }
-            for (int j=0; j < Cuartel.Reserva.Count; j++)
+            for (int r = 0; r < Cuartel.Reserva.Count; r++)
             {
-                Robot robot = Cuartel.Reserva[j];
+                Robot robot = Cuartel.Reserva[r];
                 consola.Imprimir("\n" + (i + 1) + ") ", ConsoleColor.Yellow);
                 consola.Imprimir(robot.GetNombre() + " (Reserva).");
             }
+            var cantidadOpciones = i + 1;
+            return cantidadOpciones;
+        }
+
+        private void AbrirMenuRobot(int cantidadOpciones)
+        {
             try
             {
-                int opcionSeleccionada = consola.LeerEntero(
-                    0,
-                    i+1,
-                    "\n\nSeleccione una opcion: ",
-                    ConsoleColor.Yellow
-                );
-                Robot robot= null;
+                int opcionSeleccionada = SeleccionarOpcion(cantidadOpciones);
+                Robot robot = null;
                 if (opcionSeleccionada > Cuartel.RobotsActivos.Count)
                 {
                     opcionSeleccionada -= Cuartel.RobotsActivos.Count;
@@ -51,11 +60,22 @@ namespace FrontEnd.Menu.MenuCuartelNamespace.MenuRobotNamespace
                 }
                 else
                     robot = Cuartel.RobotsActivos[opcionSeleccionada - 1];
-                var menuRobot = new MenuRobot(Cuartel, robot);
+                var menuRobot = new MenuRobot(robot);
                 menuRobot.Ejecutar();
             }
-            catch(UserAbortException e) 
+            catch (UserAbortException e)
             { }
+        }
+
+        private int SeleccionarOpcion(int max)
+        {
+            var consola = ConsolaCustom.Singleton();
+            return consola.LeerEntero(
+                    0,
+                    max,
+                    "\n\nSeleccione una opcion: ",
+                    ConsoleColor.Yellow
+                );
         }
 
         public override string ToString()

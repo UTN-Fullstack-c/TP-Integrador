@@ -1,4 +1,5 @@
 ﻿using FrontEnd.CustomException;
+using System.Security.Cryptography;
 
 namespace FrontEnd
 {
@@ -48,9 +49,9 @@ namespace FrontEnd
                 throw new UserAbortException("");
         }
 
-        private bool LeerBooleano()
+        public bool LeerBooleano(string mensaje = "\nDesea volver a intentar?")
         {
-            Imprimir("\nDesea volver a intentar (S/N) : ", ConsoleColor.Yellow);
+            Imprimir(mensaje + " (S/N) : ", ConsoleColor.Yellow);
             string? respuesta = null;
             bool continuar = true;
             while (continuar)

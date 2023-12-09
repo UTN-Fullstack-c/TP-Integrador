@@ -10,20 +10,21 @@ namespace Backend.Robots.FabricaRobots
         public static Robot Crear(
             int tipo,
             float velocidadMax,
-            Localizacion2D localizacion
+            Localizacion2D localizacion,
+            Cuartel cuartel
             )
         {
             Robot robot = null;
             switch (tipo)
             {
                 case 0:
-                    robot = new FabricaUAV().Crear(velocidadMax, localizacion);
+                    robot = new FabricaUAV().Crear(velocidadMax, localizacion, cuartel);
                     break;
                 case 1:
-                    robot = new FabricaK9().Crear(velocidadMax, localizacion);
+                    robot = new FabricaK9().Crear(velocidadMax, localizacion, cuartel);
                     break;
                 case 2:
-                    robot = new FabricaM8().Crear(velocidadMax, localizacion);
+                    robot = new FabricaM8().Crear(velocidadMax, localizacion, cuartel);
                     break;
                 default:
                     throw new TipoProductoInvalido("No se pudo fabricar el robot.");
@@ -31,6 +32,6 @@ namespace Backend.Robots.FabricaRobots
             return robot;
         }
 
-        public abstract Robot Crear(float velocidadMax, Localizacion2D localizacion);
+        public abstract Robot Crear(float velocidadMax, Localizacion2D localizacion, Cuartel cuartel);
     }
 }

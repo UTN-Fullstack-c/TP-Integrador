@@ -5,18 +5,16 @@ namespace FrontEnd.Menu.MenuCuartelNamespace.MenuRobotNamespace
 {
     public class AgregarReserva : ICommand
     {
-        private Cuartel Cuartel;
-        private Robot robot;
+        private Robot Robot;
 
-        public AgregarReserva(Cuartel cuartel, Robot robot)
+        public AgregarReserva(Robot robot)
         {
-            Cuartel = cuartel;
-            this.robot = robot;
+            Robot = robot;
         }
 
         public void Ejecutar()
         {
-            if (!Cuartel.AgregarReserva(robot))
+            if (!Robot.Cuartel.AgregarReserva(Robot))
                 ConsolaCustom.Singleton().Imprimir("\nEl robot ya estaba en la reserva\n", ConsoleColor.Red);
         }
 

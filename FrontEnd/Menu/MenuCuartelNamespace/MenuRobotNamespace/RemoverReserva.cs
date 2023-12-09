@@ -5,18 +5,16 @@ namespace FrontEnd.Menu.MenuCuartelNamespace.MenuRobotNamespace
 {
     public class RemoverReserva : ICommand
     {
-        private Cuartel Cuartel;
-        private Robot robot;
+        private Robot Robot;
 
-        public RemoverReserva(Cuartel cuartel, Robot robot)
+        public RemoverReserva(Robot robot)
         {
-            Cuartel = cuartel;
-            this.robot = robot;
+            Robot = robot;
         }
 
         public void Ejecutar()
         {
-            if(! Cuartel.RemoverReserva(robot))
+            if(! Robot.Cuartel.RemoverReserva(Robot))
                 ConsolaCustom.Singleton().Imprimir("\nEl robot no se encontraba en la reserva\n", ConsoleColor.Red);
         }
 

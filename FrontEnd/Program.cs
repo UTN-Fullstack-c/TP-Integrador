@@ -38,14 +38,15 @@ namespace FrontEnd
             Mapa mapa = mapaConsola.Mapa;
             var fabrica = new FabricaM8();
             Localizacion2D origen = mapa.Get(50, 15);
+            Cuartel cuartel = mapa.Cuarteles[0];
             Robot m8 = fabrica.Crear(
                 100,
-                origen
+                origen,
+                cuartel
             );
             mapaConsola.Imprimir();
             Console.WriteLine();
             Console.ReadKey();
-            Cuartel cuartel = mapa.Cuarteles[0];
             //cuartel.Mapa = mapa;
             cuartel.Suscriptors.Add((message) =>
             {

@@ -9,6 +9,7 @@ namespace Backend.Localizaciones
         public int NumeroCuartel { get; set; }
         public List<Action<String>> Suscriptors { get; set; }
 
+
         public Cuartel(int x, int y, int numeroCuartel) 
             : base(x, y, "Cuartel " + numeroCuartel)
         {
@@ -36,9 +37,13 @@ namespace Backend.Localizaciones
                     return false;
                 if (Enviar(robot, vertederoMasCercano))
                 {
+                    robot.Contenedor.CompletarCarga();
                     Notificar("Robot en vertedero");
                     if (Enviar(robot, reciclajeMasCercano))
+                    {
+                        robot.Contenedor.DescargaCompleta();
                         return true;
+                    }
                 }
                 return false;
             }
@@ -118,7 +123,12 @@ namespace Backend.Localizaciones
 
         public void CargarBateria(Robot robot)
         {
-            robot.Bateria.RecargarBateriaCompleta();
+            robot.Bateria.CompletarCarga();
+        }
+
+        public void RecibirCargamento(Robot robot)
+        {
+            robot.Contenedor.DescargaCompleta();
         }
 
         public bool AgregarRobot(Robot robot)
@@ -163,7 +173,7 @@ namespace Backend.Localizaciones
 
         public void Reparar(Robot robot)
         {
-            robot.Bateria.RecargarBateriaCompleta();
+            robot.Bateria.CompletarCarga();
         }
 
         public void RepararRobot(Robot robot)

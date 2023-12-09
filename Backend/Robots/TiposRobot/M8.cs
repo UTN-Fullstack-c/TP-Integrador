@@ -8,19 +8,21 @@ namespace Backend.Robots.TiposRobot
     {
         public M8(
             float velocidadMax,
-            float pesoMax,
+            Contenedor contenedor,
             Estado estado,
             Bateria? bateria,
             int id,
-            Localizacion2D localizacion
+            Localizacion2D localizacion,
+            Cuartel cuartel
             )
             : base(
                   velocidadMax,
-                  pesoMax,
+                  contenedor,
                   estado,
                   bateria,
                   id,
-                  localizacion
+                  localizacion,
+                  cuartel
             )
         {
         }

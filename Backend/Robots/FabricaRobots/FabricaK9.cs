@@ -7,15 +7,16 @@ namespace Backend.Robots.FabricaRobots
 {
     public class FabricaK9 : FabricaRobot
     {
-        public override Robot Crear(float velocidadMax, Localizacion2D localizacion)
+        public override Robot Crear(float velocidadMax, Localizacion2D localizacion, Cuartel cuartel)
         {
             return new K9(
                 velocidadMax,
-                40,
+                new Contenedor(40),
                 new StandBy(),
                 new Bateria(6500),
                 ultimoIdRobot++,
-                localizacion
+                localizacion,
+                cuartel
             );
         }
     }

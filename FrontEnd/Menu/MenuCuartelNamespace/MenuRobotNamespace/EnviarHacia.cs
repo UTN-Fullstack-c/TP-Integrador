@@ -7,12 +7,10 @@ namespace FrontEnd.Menu.MenuCuartelNamespace.MenuRobotNamespace
     public class EnviarHacia : ICommand
     {
         private Robot Robot;
-        private Cuartel Cuartel;
 
-        public EnviarHacia(Cuartel cuartel, Robot robot)
+        public EnviarHacia(Robot robot)
         {
             Robot = robot;
-            Cuartel = cuartel;
         }
 
         public void Ejecutar()
@@ -31,7 +29,7 @@ namespace FrontEnd.Menu.MenuCuartelNamespace.MenuRobotNamespace
                 "Longitud (Y) del destino: ",
                 ConsoleColor.White
             );
-            Cuartel.Enviar(Robot, mapa.Get(x,y));
+            Robot.Cuartel.Enviar(Robot, mapa.Get(x,y));
         }
 
         public override string ToString()

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Backend.Transferibles
 {
-    public class Bateria : Transferible
+    public class Contenedor : Transferible
     {
-        public Bateria(int miliAmperiosMax) : base(miliAmperiosMax)
+        public Contenedor(int max) : base(max)
         {
         }
     }

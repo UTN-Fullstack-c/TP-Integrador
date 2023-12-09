@@ -1,12 +1,10 @@
 ﻿using Backend.Localizaciones;
-using FrontEnd.Menu;
 using FrontEnd.Menu.MenuCuartelNamespace;
 using FrontEnd.Menu.MenuCuartelNamespace.AgregarRobotNamespace;
 using FrontEnd.Menu.MenuCuartelNamespace.EstadoRobots;
 using FrontEnd.Menu.MenuCuartelNamespace.MenuRobotNamespace;
 using FrontEnd.Menu.MenuCuartelNamespace.MovilizarVarios;
 using FrontEnd.Menu.MenuMapaNamespace;
-using FrontEnd.MenuNamespace.MenuMapaNamespace;
 
 namespace FrontEnd.MenuNamespace.MenuCuartelNamespace
 {

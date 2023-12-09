@@ -1,5 +1,4 @@
 ﻿using Backend.Transferibles;
-using Backend.Exceptions;
 using Backend.Localizaciones;
 using Backend.Estados;
 using System.Text;
@@ -9,62 +8,36 @@ namespace Backend.Robots
     public abstract class Robot : Localizable
     {
         public const float FactorVelocidad = 0.5f;
-
-        private List<CargaFisica> _cargas;
         public Localizacion2D Localizacion { get; set; }
         public int Id { get; }
         public Bateria Bateria { get; }
+        public Contenedor Contenedor { get; }
         public Estado Estado { get; set; }
-        public float PesoMax { get; }
-        public float Carga { get; set; }
         public float VelocidadMax { get; }
         private float danio;
         public float Danio { get { return danio; } set { danio = value; } }
+        public Cuartel Cuartel { get; set; }
 
-        public override string ToString()
-        {
-            return new StringBuilder()
-                .Append("Nro. serie: ")
-                .Append(Id)
-                .Append("\nBateria: ")
-                .Append(Bateria.PorcentajeBateriaConsumida())
-                .Append("mA\n")
-                .Append("Daño: ")
-                .Append(Danio)
-                .Append("%\n")
-                .Append("Carga: ")
-                .Append(Carga)
-                .Append("Kg\n")
-                .Append("Velocidad: ")
-                .Append(GetVelocidadActual())
-                .Append("Km/h\n")
-                .Append("Localizacion: (")
-                .Append(Localizacion.X)
-                .Append(",")
-                .Append(Localizacion.Y)
-                .Append(")")
-                .ToString();
-        }
 
         protected Robot(
             float velocidadMax, 
-            float pesoMax, 
+            Contenedor baul, 
             Estado estado, 
             Bateria bateria, 
             int id, 
-            Localizacion2D localizacion
+            Localizacion2D localizacion,
+            Cuartel cuartel
             )
         {
             VelocidadMax = velocidadMax;
-            PesoMax = pesoMax;
             Estado = estado;
             Bateria = bateria;
-            this.Id = id;
+            Id = id;
             Localizacion = localizacion;
             Localizacion.Hospedar(this);
-            _cargas = new List<CargaFisica>();
             danio = 0;
-            Carga = 0;
+            Contenedor = baul;
+            Cuartel = cuartel;
         }
 
         public bool Recorrer(List<Localizacion2D> ruta)
@@ -93,8 +66,8 @@ namespace Backend.Robots
         public void DaniarBateria(float porcentajeDanio)
         {
             float factorDanio = (1 - porcentajeDanio);
-            float nuevoMaximo = Bateria.MiliAmperiosMax * factorDanio;
-            Bateria.MiliAmperiosMax = (int) nuevoMaximo;
+            float nuevoMaximo = Bateria.Max * factorDanio;
+            Bateria.Max = (int) nuevoMaximo;
         }
 
         public void Reparar()
@@ -104,67 +77,24 @@ namespace Backend.Robots
 
         public float GetVelocidadActual()
         {
-            float porcentajeVelocidadPerdida =
-                Bateria.PorcentajeBateriaConsumida() * FactorVelocidad;
+            float porcentajeConsumido = 100 * Bateria.PorcentajeActual();
+            float porcentajeVelocidadPerdida = porcentajeConsumido * FactorVelocidad;
             return VelocidadMax * (1+(porcentajeVelocidadPerdida / 100));
         }
 
-        // Retorna los milliAmperios que realmente se transfirio.
-        // Lanza excepcion si no hay suficiente para transferir.
-        public int TransferirCargaBateria(Robot robot, int milliAmperios)
+        public void TransferirBateria(Robot robotDestino)
         {
-            if (Bateria.MiliAmperiorsActuales < milliAmperios)
-                throw new BateriaInsuficiente();
-            if (robot.Bateria.BateriaConsumida() < milliAmperios)
-                milliAmperios = robot.Bateria.BateriaConsumida();
-            Bateria.ConsumirBateria(milliAmperios);
-            robot.Bateria.RecargarBateria(milliAmperios);
-            return milliAmperios;
+            Bateria.Transferir(robotDestino.Bateria);
         }
 
-        public void TransferirCargaFisica(Robot robotDestino, uint iesimaCarga)
+        public void TransferirCargaFisica(Robot robotDestino)
         {
-            if (iesimaCarga >= _cargas.Count )
-                throw new IndiceInvalido("Se intente quitar una carga que no existe");
-            CargaFisica carga = _cargas[(int)iesimaCarga];
-            robotDestino.IntentarAsignarCargaFisica(carga);
-            _cargas.Remove(carga);
-            Bateria.ConsumirBateria(1300);
-        }
-
-        public float PesoCargaTotal()
-        {
-            float total = 0;
-            foreach (CargaFisica carga in _cargas)
-                total += carga.Peso;
-            return total;
-        }
-
-        public void IntentarAsignarCargaFisica(CargaFisica carga)
-        {
-            if (PesoCargaTotal() + carga.Peso > PesoMax)
-                throw new PesoMaximoExcedido();
-            _cargas.Add(carga);
-        }
-
-        public void LLevarCargarAlCuartel()
-        {
-
-        }
-
-        public void CargarBateriaEnCuartel()
-        {
-
+            Contenedor.Transferir(robotDestino.Contenedor);
         }
 
         public string GetNombre()
         {
             return GetType().Name + "-" + Id;
-        }
-
-        public Localizacion2D GetLocalizacion()
-        {
-            return Localizacion;
         }
 
         public override bool Equals(object? obj)
@@ -175,6 +105,36 @@ namespace Backend.Robots
         public override int GetHashCode()
         {
             return Id;
+        }
+
+        public override string ToString()
+        {
+            return new StringBuilder()
+                .Append("Nro. serie: ")
+                .Append(Id)
+                .Append("\nBateria: ")
+                .Append(Bateria.PorcentajeActual())
+                .Append("mA\n")
+                .Append("Daño: ")
+                .Append(Danio)
+                .Append("%\n")
+                .Append("Carga: ")
+                .Append(Contenedor)
+                .Append("Kg\n")
+                .Append("Velocidad: ")
+                .Append(GetVelocidadActual())
+                .Append("Km/h\n")
+                .Append("Localizacion: (")
+                .Append(Localizacion.X)
+                .Append(",")
+                .Append(Localizacion.Y)
+                .Append(")")
+                .ToString();
+        }
+
+        public Localizacion2D GetLocalizacion()
+        {
+            return Localizacion;
         }
     }
 }
