@@ -11,10 +11,6 @@ namespace Backend.Robots.FabricaRobots
         {
             return new M8(
                 velocidadMax,
-                new Contenedor(250),
-                new StandBy(),
-                new Bateria(12250),
-                ultimoIdRobot++,
                 localizacion,
                 cuartel
             );

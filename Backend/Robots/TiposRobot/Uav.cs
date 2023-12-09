@@ -6,21 +6,19 @@ namespace Backend.Robots.TiposRobot
 {
     public class Uav : Robot
     {
+        public const int CONTENEDOR = 5;
+        public const int BATERIA = 4000;
+
         public Uav(
             float velocidadMax,
-            Contenedor contenedor,
-            Estado estado,
-            Bateria bateria,
-            int id,
             Localizacion2D localizacion,
             Cuartel cuartel
             )
             : base(
                   velocidadMax,
-                  contenedor,
-                  estado,
-                  bateria,
-                  id,
+                  new Contenedor(CONTENEDOR),
+                  new StandBy(),
+                  new Bateria(BATERIA),
                   localizacion,
                   cuartel
             )

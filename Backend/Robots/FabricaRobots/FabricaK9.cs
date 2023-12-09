@@ -11,10 +11,6 @@ namespace Backend.Robots.FabricaRobots
         {
             return new K9(
                 velocidadMax,
-                new Contenedor(40),
-                new StandBy(),
-                new Bateria(6500),
-                ultimoIdRobot++,
                 localizacion,
                 cuartel
             );

@@ -6,21 +6,18 @@ namespace Backend.Robots.TiposRobot
 {
     public class K9 : Robot
     {
+        public const int CONTENEDOR = 40;
+        public const int BATERIA = 6500;
         public K9(
             float velocidadMax,
-            Contenedor contenedor,
-            Estado estado,
-            Bateria bateria,
-            int id,
             Localizacion2D localizacion,
             Cuartel cuartel
             )
             : base(
                   velocidadMax,
-                  contenedor,
-                  estado,
-                  bateria,
-                  id,
+                  new Contenedor(CONTENEDOR),
+                  new StandBy(),
+                  new Bateria(BATERIA),
                   localizacion,
                   cuartel
             )

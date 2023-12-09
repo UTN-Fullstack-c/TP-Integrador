@@ -7,6 +7,8 @@ namespace Backend.Robots
 {
     public abstract class Robot : Localizable
     {
+        protected static int ultimoIdRobot = 0;
+
         public const float FactorVelocidad = 0.5f;
         public Localizacion2D Localizacion { get; set; }
         public int Id { get; }
@@ -23,8 +25,7 @@ namespace Backend.Robots
             float velocidadMax, 
             Contenedor baul, 
             Estado estado, 
-            Bateria bateria, 
-            int id, 
+            Bateria bateria,
             Localizacion2D localizacion,
             Cuartel cuartel
             )
@@ -32,7 +33,8 @@ namespace Backend.Robots
             VelocidadMax = velocidadMax;
             Estado = estado;
             Bateria = bateria;
-            Id = id;
+            Bateria.CompletarCarga();
+            Id = ++ultimoIdRobot;
             Localizacion = localizacion;
             Localizacion.Hospedar(this);
             danio = 0;
@@ -65,9 +67,7 @@ namespace Backend.Robots
 
         public void DaniarBateria(float porcentajeDanio)
         {
-            float factorDanio = (1 - porcentajeDanio);
-            float nuevoMaximo = Bateria.Max * factorDanio;
-            Bateria.Max = (int) nuevoMaximo;
+            Bateria.DisminuirCapacidadMaxima(porcentajeDanio);
         }
 
         public void Reparar()
@@ -113,15 +113,13 @@ namespace Backend.Robots
                 .Append("Nro. serie: ")
                 .Append(Id)
                 .Append("\nBateria: ")
-                .Append(Bateria.PorcentajeActual())
-                .Append("mA\n")
-                .Append("Daño: ")
+                .Append(Bateria)
+                .Append("\nDaño: ")
                 .Append(Danio)
                 .Append("%\n")
                 .Append("Carga: ")
                 .Append(Contenedor)
-                .Append("Kg\n")
-                .Append("Velocidad: ")
+                .Append("\nVelocidad: ")
                 .Append(GetVelocidadActual())
                 .Append("Km/h\n")
                 .Append("Localizacion: (")

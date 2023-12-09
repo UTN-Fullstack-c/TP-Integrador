@@ -6,21 +6,18 @@ namespace Backend.Robots.TiposRobot
 {
     public class M8 : Robot
     {
+        public const int CONTENEDOR = 250;
+        public const int BATERIA = 12250;
         public M8(
             float velocidadMax,
-            Contenedor contenedor,
-            Estado estado,
-            Bateria? bateria,
-            int id,
             Localizacion2D localizacion,
             Cuartel cuartel
             )
             : base(
                   velocidadMax,
-                  contenedor,
-                  estado,
-                  bateria,
-                  id,
+                  new Contenedor(CONTENEDOR),
+                  new StandBy(),
+                  new Bateria(BATERIA),
                   localizacion,
                   cuartel
             )

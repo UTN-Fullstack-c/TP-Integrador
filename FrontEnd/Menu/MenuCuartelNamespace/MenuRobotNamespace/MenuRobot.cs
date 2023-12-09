@@ -16,6 +16,7 @@ namespace FrontEnd.Menu.MenuCuartelNamespace.MenuRobotNamespace
             Commands.Add(new EnviarHacia(robot));
             Commands.Add(new MostrarMapa());
             Commands.Add(new MostrarUbicacion(robot));
+            Commands.Add(new MostrarEstado(robot));
         }
     }
 }

@@ -6,7 +6,6 @@ namespace FrontEnd.Menu.MenuCuartelNamespace.AgregarRobotNamespace
 {
     public class MenuAgregarRobot : MenuConsola
     {
-        protected FabricaRobot fabricaRobot;
         protected Cuartel Cuartel;
 
         public MenuAgregarRobot(Cuartel cuartel)

@@ -55,7 +55,7 @@ namespace Backend.Localizaciones
             bool todosReparados = true;
             foreach (var robot in RobotsActivos)
             {
-                if (robot.Danio > 0)
+                if (robot.Danio > 0 || robot.Bateria.Max < robot.Bateria.MiliAmperiosDeFabrica)
                 {
                     bool pudoLlegar = Enviar(robot, this);
                     if (pudoLlegar)
@@ -173,6 +173,7 @@ namespace Backend.Localizaciones
 
         public void Reparar(Robot robot)
         {
+            robot.Bateria.Reparar();
             robot.Bateria.CompletarCarga();
         }
 

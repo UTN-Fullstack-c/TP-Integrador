@@ -11,10 +11,6 @@ namespace Backend.Robots.FabricaRobots
         {
             return new Uav(
                 velocidadMax,
-                new Contenedor(5),
-                new StandBy(),
-                new Bateria(4000),
-                ultimoIdRobot++,
                 localizacion,
                 cuartel
             );

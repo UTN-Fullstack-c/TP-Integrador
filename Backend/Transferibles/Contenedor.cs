@@ -8,7 +8,7 @@ namespace Backend.Transferibles
 {
     public class Contenedor : Transferible
     {
-        public Contenedor(int max) : base(max)
+        public Contenedor(int max) : base(max, "Kg")
         {
         }
     }
