@@ -2,7 +2,7 @@
 using FrontEnd.MapaNamespace;
 using FrontEnd.MenuNamespace;
 
-namespace FrontEnd.Menu
+namespace FrontEnd.Menu.MenuCuartelNamespace
 {
     public class ListarRobotsPorLocalizacion : ICommand
     {
@@ -28,7 +28,7 @@ namespace FrontEnd.Menu
                 consola.Imprimir("No hay robots en (" + x + ", " + y + "): \n");
             else
                 foreach (Robot robot in robos)
-                    consola.Imprimir("\n"+ robot.ToString() + "\n");
+                    consola.Imprimir("\n" + robot.ToString() + "\n");
         }
 
         public override string ToString()

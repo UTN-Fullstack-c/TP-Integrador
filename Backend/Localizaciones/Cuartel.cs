@@ -2,9 +2,8 @@
 
 namespace Backend.Localizaciones
 {
-    public class Cuartel : Localizacion2D, PuntoDeCarga
+    public class Cuartel : Localizacion2D, PuntoDeCarga, Localizable
     {
-        public Mapa Mapa { get; set; }
         public List<Robot> RobotsActivos { get; set; }
         public List<Robot> Reserva { get; set; }
         public int NumeroCuartel { get; set; }
@@ -29,10 +28,10 @@ namespace Backend.Localizaciones
             foreach (var robot in RobotsActivos)
             {
                 List<Localizacion2D> mejorRuta = null;
-                Vertedero vertederoMasCercano = MasCercano(robot, Mapa.Vertederos);
+                Vertedero vertederoMasCercano = MasCercano(robot, Mapa.Singleton().Vertederos);
                 if (vertederoMasCercano == null)
                     return false;
-                Reciclaje reciclajeMasCercano = MasCercano(robot, Mapa.Reciclajes);
+                Reciclaje reciclajeMasCercano = MasCercano(robot, Mapa.Singleton().Reciclajes);
                 if (reciclajeMasCercano == null)
                     return false;
                 if (Enviar(robot, vertederoMasCercano))
@@ -68,7 +67,7 @@ namespace Backend.Localizaciones
             foreach (var zona in destinos)
             {
                 List<Localizacion2D> ruta = GeneradorRuta.RutaDirecta(
-                    Mapa,
+                    Mapa.Singleton(),
                     robot.Localizacion,
                     zona
                 );
@@ -82,30 +81,22 @@ namespace Backend.Localizaciones
             return masCercano;
         }
 
-        public void ListarEstados()
-        {
-        }
-
-        public void listarEstado(string gps)
-        {
-
-        }
-
         public void Recall()
         {
-
+            foreach (var robot in RobotsActivos)
+                Recall(robot);
         }
 
         public void Recall(Robot robot)
         {
-
+            Enviar(robot, this);
         }
 
         public bool Enviar(Robot robot, Localizacion2D destino)
         {
             Localizacion2D origen = robot.Localizacion;
             List<Localizacion2D> ruta = GeneradorRuta.RutaDirecta(
-                Mapa, 
+                Mapa.Singleton(), 
                 robot.Localizacion, 
                 destino
             );
@@ -122,9 +113,24 @@ namespace Backend.Localizaciones
             RobotsActivos.Add(robot);
         }
 
-        public void RemoverRobot(Robot robot)
+        public void AgregarReserva(Robot robot)
         {
-            RobotsActivos.Add(robot);
+            int i = -1;
+            while (++i < RobotsActivos.Count && RobotsActivos[i].Id != robot.Id) ;
+            if (i < RobotsActivos.Count)
+                RobotsActivos.RemoveAt(i);
+            Reserva.Add(robot);
+        }
+
+        public void RemoverReserva(Robot robot)
+        {
+            int i = -1;
+            while (++i < Reserva.Count && Reserva[i].Id != robot.Id) ;
+            if (i < Reserva.Count)
+            {
+                Reserva.RemoveAt(i);
+                RobotsActivos.Add(robot);
+            }
         }
 
         public void RecargarBateria(Robot robot)
@@ -135,6 +141,11 @@ namespace Backend.Localizaciones
         public void RepararRobot(Robot robot)
         {
             robot.Reparar();
+        }
+
+        public Localizacion2D GetLocalizacion()
+        {
+            return this;
         }
     }
 }

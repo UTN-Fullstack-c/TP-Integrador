@@ -46,7 +46,7 @@ namespace FrontEnd
             Console.WriteLine();
             Console.ReadKey();
             Cuartel cuartel = mapa.Cuarteles[0];
-            cuartel.Mapa = mapa;
+            //cuartel.Mapa = mapa;
             cuartel.Suscriptors.Add((message) =>
             {
                 Console.WriteLine(message);

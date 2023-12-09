@@ -2,20 +2,21 @@
 using FrontEnd.MenuNamespace;
 using System.Text;
 
-namespace FrontEnd.Menu
+namespace FrontEnd.Menu.MenuCuartelNamespace
 {
     public class MostrarUbicacion : ICommand
     {
-        private Localizacion2D localizacion;
+        public Localizable localizable { get; set; }
 
-        public MostrarUbicacion(Localizacion2D localizacion)
+        public MostrarUbicacion(Localizable localizacion)
         {
-            this.localizacion = localizacion;
+            this.localizable = localizacion;
         }
 
         public void Ejecutar()
         {
             var consola = ConsolaCustom.Singleton();
+            Localizacion2D localizacion = localizable.GetLocalizacion();
             consola.Imprimir(new StringBuilder()
                 .Append("\nLocalizacion de ")
                 .Append(localizacion.NombreTerreno)

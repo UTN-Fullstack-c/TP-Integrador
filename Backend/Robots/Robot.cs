@@ -6,13 +6,13 @@ using System.Text;
 
 namespace Backend.Robots
 {
-    public abstract class Robot
+    public abstract class Robot : Localizable
     {
         public const float FactorVelocidad = 0.5f;
 
         private List<CargaFisica> _cargas;
         public Localizacion2D Localizacion { get; set; }
-        public int IdCuartel { get; }
+        public int Id { get; }
         public Bateria Bateria { get; }
         public Estado Estado { get; set; }
         public float PesoMax { get; }
@@ -57,7 +57,7 @@ namespace Backend.Robots
             PesoMax = pesoMax;
             Estado = estado;
             Bateria = bateria;
-            IdCuartel = id;
+            this.Id = id;
             Localizacion = localizacion;
             Localizacion.Hospedar(this);
             _cargas = new List<CargaFisica>();
@@ -153,6 +153,16 @@ namespace Backend.Robots
         public void CargarBateriaEnCuartel()
         {
 
+        }
+
+        public string GetNombre()
+        {
+            return GetType().Name + "-" + Id;
+        }
+
+        public Localizacion2D GetLocalizacion()
+        {
+            return Localizacion;
         }
     }
 }

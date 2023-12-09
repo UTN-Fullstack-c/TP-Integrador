@@ -1,15 +1,14 @@
 ﻿using Backend.Localizaciones;
 using Backend.Robots;
 using FrontEnd.MenuNamespace;
-using System;
 
 namespace FrontEnd.Menu.MenuCuartelNamespace
 {
-    public class ListarRobots : ICommand
+    public class ListarEstadoRobots : ICommand
     {
         private Cuartel Cuartel;
 
-        public ListarRobots(Cuartel cuartel)
+        public ListarEstadoRobots(Cuartel cuartel)
         {
             Cuartel = cuartel;
         }

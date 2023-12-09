@@ -1,7 +1,7 @@
 ﻿using FrontEnd.MapaNamespace;
 using FrontEnd.MenuNamespace;
 
-namespace FrontEnd.Menu
+namespace FrontEnd.Menu.MenuMapaNamespace
 {
     public class MostrarMapa : ICommand
     {
