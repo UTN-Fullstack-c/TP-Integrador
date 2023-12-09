@@ -55,7 +55,7 @@ namespace FrontEnd
                 Console.ReadKey();
             });
             cuartel.AgregarRobot( m8 );
-            cuartel.TodosLosRobotsAlTrabajo();
+            cuartel.OciososLLevarReciclados();
             Console.WriteLine(" ");
             mapaConsola.Imprimir();
             Console.WriteLine(m8);

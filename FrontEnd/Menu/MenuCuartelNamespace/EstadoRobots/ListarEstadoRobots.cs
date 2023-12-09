@@ -2,7 +2,7 @@
 using Backend.Robots;
 using FrontEnd.MenuNamespace;
 
-namespace FrontEnd.Menu.MenuCuartelNamespace
+namespace FrontEnd.Menu.MenuCuartelNamespace.EstadoRobots
 {
     public class ListarEstadoRobots : ICommand
     {
@@ -29,15 +29,15 @@ namespace FrontEnd.Menu.MenuCuartelNamespace
                 titulo += "-";
             consola.Imprimir(titulo + "\n", ConsoleColor.Blue);
             if (robots.Count == 0)
-                consola.Imprimir("No hay robots "+nombreLista+"\n");
+                consola.Imprimir("No hay robots " + nombreLista + "\n");
             else
                 foreach (var robot in robots)
-                    consola.Imprimir("\n"+ robot.ToString() + "\n");
+                    consola.Imprimir("\n" + robot.ToString() + "\n");
         }
 
         public override string ToString()
         {
-            return "Listar Robots del cuartel";
+            return "Listar estado de todos los robots del cuartel";
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Backend.Localizaciones;
 using FrontEnd.MapaNamespace;
 using FrontEnd.Menu.MenuCuartelNamespace;
+using FrontEnd.Menu.MenuCuartelNamespace.EstadoRobots;
 using FrontEnd.Menu.MenuMapaNamespace;
 using FrontEnd.MenuNamespace;
 using FrontEnd.MenuNamespace.MenuCuartelNamespace;

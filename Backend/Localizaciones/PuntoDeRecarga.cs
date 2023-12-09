@@ -4,6 +4,6 @@ namespace Backend.Localizaciones
 {
     public interface PuntoDeCarga
     {
-        public void RecargarBateria(Robot robot);
+        public void Reparar(Robot robot);
     }
 }

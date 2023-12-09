@@ -1,7 +1,7 @@
 ﻿using Backend.Localizaciones;
 using FrontEnd.MenuNamespace;
 
-namespace FrontEnd.Menu.MenuCuartelNamespace
+namespace FrontEnd.Menu.MenuCuartelNamespace.MovilizarVarios
 {
     public class Recall : ICommand
     {
@@ -15,6 +15,10 @@ namespace FrontEnd.Menu.MenuCuartelNamespace
         public void Ejecutar()
         {
             Cuartel.Recall();
+        }
+        public override string ToString()
+        {
+            return "Recall";
         }
     }
 }

@@ -1,19 +1,20 @@
 ﻿using Backend.Localizaciones;
+using FrontEnd.MenuNamespace;
 
-namespace FrontEnd.MenuNamespace.MenuCuartelNamespace
+namespace FrontEnd.Menu.MenuCuartelNamespace.MovilizarVarios
 {
-    public class OciososTraerReciclados : ICommand
+    public class OciososLlevarReciclados : ICommand
     {
         private Cuartel Cuartel { get; }
 
-        public OciososTraerReciclados(Cuartel cuartel)
+        public OciososLlevarReciclados(Cuartel cuartel)
         {
             Cuartel = cuartel;
         }
 
         public void Ejecutar()
         {
-
+            Cuartel.OciososLLevarReciclados();
         }
 
         public override string ToString()

@@ -23,7 +23,8 @@ namespace FrontEnd.Menu.MenuCuartelNamespace.AgregarRobotNamespace
             var msgVelMax = "Ingrese la velocidad maxima : ";
             float velocidadMaxima = consola.LeerEntero(1, null, msgVelMax, color);
             Robot robot = fabricaRobot.Crear(velocidadMaxima, Cuartel);
-            Cuartel.AgregarRobot(robot);
+            if(!Cuartel.AgregarRobot(robot))
+                ConsolaCustom.Singleton().Imprimir("\nEl robot ya pertenece al cuartel\n", ConsoleColor.Red);
         }
     }
 }

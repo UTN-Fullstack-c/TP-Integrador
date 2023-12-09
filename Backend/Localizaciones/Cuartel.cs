@@ -23,7 +23,7 @@ namespace Backend.Localizaciones
         // ARREGLAR LOS RETURNS 
 
 
-        public bool TodosLosRobotsAlTrabajo()
+        public bool OciososLLevarReciclados()
         {
             foreach (var robot in RobotsActivos)
             {
@@ -49,7 +49,15 @@ namespace Backend.Localizaciones
         {
             bool todosReparados = true;
             foreach (var robot in RobotsActivos)
-                todosReparados = todosReparados && Enviar(robot, this);
+            {
+                if (robot.Danio > 0)
+                {
+                    bool pudoLlegar = Enviar(robot, this);
+                    if (pudoLlegar)
+                        Reparar(robot);
+                    todosReparados = todosReparados && pudoLlegar;
+                }
+            }
             return todosReparados;
         }
 
@@ -108,32 +116,52 @@ namespace Backend.Localizaciones
             return true;
         }
 
-        public void AgregarRobot(Robot robot)
+        public void CargarBateria(Robot robot)
         {
-            RobotsActivos.Add(robot);
+            robot.Bateria.RecargarBateriaCompleta();
         }
 
-        public void AgregarReserva(Robot robot)
+        public bool AgregarRobot(Robot robot)
         {
-            int i = -1;
-            while (++i < RobotsActivos.Count && RobotsActivos[i].Id != robot.Id) ;
-            if (i < RobotsActivos.Count)
-                RobotsActivos.RemoveAt(i);
-            Reserva.Add(robot);
+            bool ok = false;
+            if (!RobotsActivos.Contains(robot) && !Reserva.Contains(robot))
+            { 
+                RobotsActivos.Add(robot);
+                ok = true;
+            }
+            return ok;
         }
 
-        public void RemoverReserva(Robot robot)
+        public bool AgregarReserva(Robot robot)
         {
+            bool ok = false;
+            if (!Reserva.Contains(robot))
+            {
+                int i = -1;
+                while (++i < RobotsActivos.Count && RobotsActivos[i].Id != robot.Id) ;
+                if (i < RobotsActivos.Count)
+                    RobotsActivos.RemoveAt(i);
+                Reserva.Add(robot);
+                ok = true;
+            }
+            return ok;
+        }
+
+        public bool RemoverReserva(Robot robot)
+        {
+            bool ok = false;
             int i = -1;
             while (++i < Reserva.Count && Reserva[i].Id != robot.Id) ;
             if (i < Reserva.Count)
             {
                 Reserva.RemoveAt(i);
                 RobotsActivos.Add(robot);
+                ok = true;
             }
+            return ok;
         }
 
-        public void RecargarBateria(Robot robot)
+        public void Reparar(Robot robot)
         {
             robot.Bateria.RecargarBateriaCompleta();
         }

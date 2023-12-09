@@ -16,7 +16,8 @@ namespace FrontEnd.Menu.MenuCuartelNamespace.MenuRobotNamespace
 
         public void Ejecutar()
         {
-            Cuartel.AgregarReserva(robot);
+            if (!Cuartel.AgregarReserva(robot))
+                ConsolaCustom.Singleton().Imprimir("\nEl robot ya estaba en la reserva\n", ConsoleColor.Red);
         }
 
         public override string ToString()

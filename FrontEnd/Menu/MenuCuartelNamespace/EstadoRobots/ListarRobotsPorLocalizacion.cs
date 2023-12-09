@@ -2,7 +2,7 @@
 using FrontEnd.MapaNamespace;
 using FrontEnd.MenuNamespace;
 
-namespace FrontEnd.Menu.MenuCuartelNamespace
+namespace FrontEnd.Menu.MenuCuartelNamespace.EstadoRobots
 {
     public class ListarRobotsPorLocalizacion : ICommand
     {

@@ -16,7 +16,8 @@ namespace FrontEnd.Menu.MenuCuartelNamespace.MenuRobotNamespace
 
         public void Ejecutar()
         {
-            Cuartel.RemoverReserva(robot);
+            if(! Cuartel.RemoverReserva(robot))
+                ConsolaCustom.Singleton().Imprimir("\nEl robot no se encontraba en la reserva\n", ConsoleColor.Red);
         }
 
         public override string ToString()

@@ -24,7 +24,9 @@ namespace Backend.Robots
         public override string ToString()
         {
             return new StringBuilder()
-                .Append("Bateria: ")
+                .Append("Nro. serie: ")
+                .Append(Id)
+                .Append("\nBateria: ")
                 .Append(Bateria.PorcentajeBateriaConsumida())
                 .Append("mA\n")
                 .Append("Daño: ")
@@ -163,6 +165,16 @@ namespace Backend.Robots
         public Localizacion2D GetLocalizacion()
         {
             return Localizacion;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is Robot && ((Robot)obj).Id == Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id;
         }
     }
 }
